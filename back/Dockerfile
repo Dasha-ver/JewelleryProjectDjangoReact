@@ -2,7 +2,7 @@
 FROM python:3.12-alpine
 
 # рабочая директория
-WORKDIR /msver/PycharmProjects/JewelleryProjectDjangoReact
+WORKDIR /usr/src/app
 RUN mkdir -p $WORKDIR/static
 RUN mkdir -p $WORKDIR/media
 

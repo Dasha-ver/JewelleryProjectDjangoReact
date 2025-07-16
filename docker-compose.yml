@@ -3,7 +3,7 @@ version: '3.8'
 services:
   django:
     #говорим что build будет из dockerfile который располагается ./django/django_project/
-    build: ./back/back/
+    build: ./back/
     # имя контейнера
     container_name: djangoapp
     # перезапускать контейнер при завершении выполнения работы или при аварийном завершении
@@ -16,10 +16,9 @@ services:
       sh -c "python manage.py runserver 0.0.0.0:8000"
     # Для статики мы подключаем два volume (чтобы при перезапуске наши данные не пропадали)), создадим их ниже.
     volumes:
+      - ./back/:/usr/src/app
       - django_static_volume:/usr/src/app/static
       - django_media_volume:/usr/src/app/media
-    # подключаем к сети myNetwork (в целом не обязательно, но до кучи чтоб было)
-
 
   node:
     # Аналогично, build из ./reactapp/dockerfile
@@ -36,7 +35,6 @@ services:
     # Зависимость. нет смысла ноде, если некому отдать ей данные. поэтому сначала стартуем сервис django, а за ней node
     depends_on:
       - django
-    # Сеть та же, все контейнеры должны крутиться в однйо сети чтобы видеть друг друга.
 
 # создаём два volume для статики
 volumes:

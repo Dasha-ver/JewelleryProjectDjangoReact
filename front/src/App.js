@@ -1,23 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import {useState, useEffect} from 'react';
+import {API_URL} from "./index";
 
 function App() {
+
+const [products, setProducts] = useState([])
+
+
+useEffect(()=>{
+      getProducts()
+  },[])
+
+  const getProducts = ()=>{
+      fetch(API_URL)
+        .then(response => response.json())
+        .then(data => setProducts(data))
+        .catch(error => console.error('Error fetching products:', error));
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+           {products.map (product => (
+                    <tr key={product.pk}>
+                        <td>{product.name}</td>
+
+                  </tr>))}
+
     </div>
   );
 }
